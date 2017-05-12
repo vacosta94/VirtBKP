@@ -44,5 +44,5 @@ python backup_vm.py default.conf foreman
 ```
 *Restore disk*
 ```
-python upload_disk.py upload_disk.py
+python upload_disk.py /mnt/foreman.qcow
 ```
