@@ -134,7 +134,6 @@ def get_logical_disk(bkpid,diskid):
   for disk in disk_service.list():
    dev = str(disk.logical_name)
    if disk.id == diskid and str(dev) != "None":
-     print str(dev)
      return str(dev)
    else:
      sys.stdout.write(".")
@@ -162,10 +161,7 @@ def main():
  global vmname
  global bkpvm
  vmid = get_id_vm(vmname)
- print bkpvm
  bkpvm = get_id_vm(bkpvm)
- print bkpvm
- print vmid
  # Se crea el snap y se espera un rato para que termine sin problemas y pueda detectar el nombre del disco en VM de backup
  create_snap(vmid)
  time.sleep(60)

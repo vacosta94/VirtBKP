@@ -19,10 +19,9 @@ ca_file=cfg.get('restore', 'ca_file')
 storagedomain=cfg.get('restore', 'storage')
 proxy=cfg.get('restore', 'proxy')
 proxyport=cfg.get('restore', 'proxyport')
-qcowfile=sys.argv[2]
-cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
 
-size=int(subprocess.check_output(cmd, shell=True))
+qcowfile=sys.argv[2]
+
 try:
   # Create a connection to the server:
   connection = sdk.Connection(
@@ -38,22 +37,20 @@ except Exception as ex:
 
 system_service = connection.system_service()
 
-# Add the disk. Note the following:
-#
-# 1. The size of the disk is specified in bytes, so to create a disk
-#    of 10 GiB the value should be 10 * 2^30.
-#
-# 2. The disk size is indicated using the 'provisioned_size' attribute,
+# 1. The disk size is indicated using the 'provisioned_size' attribute,
 #    but due to current limitations in the engine, the 'initial_size'
 #    attribute also needs to be explicitly provided for _copy on write_
 #    disks created on block storage domains, so that all the required
 #    space is allocated upfront, otherwise the upload will eventually
 #    fail.
 #
-# 3. The disk initial size must be bigger or the same as the size of the data
+# 2. The disk initial size must be bigger or the same as the size of the data
 #    you will upload.
-initial_size = 1 * 2**30
+cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
+size=int(subprocess.check_output(cmd, shell=True))
+
 provisioned_size = size
+
 disks_service = connection.system_service().disks_service()
 disk = disks_service.add(
     disk=types.Disk(
