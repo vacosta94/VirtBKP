@@ -105,7 +105,7 @@ def attach_disk(bkpid,diskid,snapid):
  urlattach = url+"/v3/vms/"+bkpid+"/disks/"
  headers = {'Content-Type': 'application/xml', 'Accept': 'application/xml'}
  requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
- resp_attach = requests.post(urlattach, data=xmlattach, headers=headers, verify=ca_file, auth=(user,password))
+ resp_attach = requests.post(urlattach, data=xmlattach, headers=headers, verify=False, auth=(user,password))
 
 # Funcion para desactivar disco virtual
 # Function to deactivate virtual disk
@@ -113,14 +113,14 @@ def deactivate_disk(bkpid,diskid):
  xmldeactivate =  "<action/>"
  urldeactivate = url+"/v3/vms/"+bkpid+"/disks/"+diskid+"/deactivate"
  headers = {'Content-Type': 'application/xml', 'Accept': 'application/xml'}
- resp_attach = requests.post(urldeactivate, data=xmldeactivate, headers=headers, verify=ca_file, auth=(user,password))
+ resp_attach = requests.post(urldeactivate, data=xmldeactivate, headers=headers, verify=False, auth=(user,password))
 
 # Funcion para desataschar disco de VM
 # Function to dettach disk 
 def detach_disk(bkpid,diskid):
  urldelete = url+"/vms/"+bkpid+"/diskattachments/"+diskid
  requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
- requests.delete(urldelete, verify=ca_file, auth=(user,password))
+ requests.delete(urldelete, verify=False, auth=(user,password))
 
 # Funcion para obtener el nombre de dispositivo de disco virtual
 # Function to get device name of a virtual disk
