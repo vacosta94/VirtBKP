@@ -110,7 +110,7 @@ context = ssl.create_default_context()
 
 # Note that ovirt-imageio-proxy by default checks the certificates, so if you don't have
 # your CA certificate of the engine in the system, you need to pass it to HTTPSConnection.
-context.load_verify_locations(cafile='ca.crt')
+context.load_verify_locations(cafile=ca_file)
 
 proxy_connection = HTTPSConnection(
     proxy,
