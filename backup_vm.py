@@ -1,3 +1,5 @@
+#!/bin/python
+
 import ovirtsdk4 as sdk
 import ovirtsdk4.types as types
 import time
@@ -25,6 +27,7 @@ vmname=sys.argv[2]
 date=str((time.strftime("%Y-%m-%d-%H")))
 vmid=""
 snapname = "BACKUP" + "_" + date +"h"
+
 
 try:
   # Create a connection to the server:
@@ -95,8 +98,10 @@ def snap_disk_id(idvm,snapid):
  svc_path = "vms/"+idvm+"/snapshots/"+snapid+"/disks/"
  disksnap_service = connection.service(svc_path)
  disks = disksnap_service.list()
+ vm_disks = ()
  for disk in disks:
-  return  disk.id
+  vm_disks = vm_disks + (disk.id,)
+ return vm_disks
 
 # Funcion para atachar disco a VM
 # Function to attach disk to VM
@@ -142,8 +147,11 @@ def get_logical_disk(bkpid,diskid):
 
 # Funcion para crear imagen qcow2 del disco
 # Function  to create qcow file of disk
-def create_image_bkp(dev):
- bckfile= bckdir + "/" + vmname + "_" + date +"h.qcow2"
+def create_image_bkp(dev,diskname):
+ bckfiledir = bckdir + "/" + vmname + "_" + date
+ mkdir = "mkdir -p " + bckfiledir
+ subprocess.call(mkdir, shell=True) 
+ bckfile = bckfiledir + "/" + diskname + ".qcow2"
  print "Se procede a crear la imagen qcow2 " + bckfile
  cmd = "qemu-img convert -O qcow2 " + dev + " " +bckfile
  out = subprocess.call(cmd, shell=True)
@@ -153,6 +161,34 @@ def create_image_bkp(dev):
  else:
   print "ERROR al crear la imagen"
   print "Se procede a eliminar el snapshot"
+
+# Funcion para obtener el nombre del disco virtual 
+# Function to get virtual disk name
+def get_disk_name(idvm,snapid,diskid):
+ svc_path = "vms/"+idvm+"/snapshots/"+snapid+"/disks/"
+ disksnap_service = connection.service(svc_path)
+ disks = disksnap_service.list()
+ for disk in disks:
+  if diskid == str(disk.id):
+   return disk.alias
+
+def backup(vmid,snapid,disk_id,bkpvm):
+  # Se agrega el disco a la VM que tomara el backup
+  attach_disk(bkpvm,disk_id,snapid)
+  # Se obtiene el nombre del dispositivo
+  dev = get_logical_disk(bkpvm,disk_id)
+  # Se obtiene el nombre del disco
+  diskname = get_disk_name(vmid,snapid,disk_id)
+  # Se crea la image qcow que seria el  backup como tal
+  create_image_bkp(dev,diskname)
+  # Se desactiva el disco del cual se hizo el backup
+  deactivate_disk(bkpvm,disk_id)
+  time.sleep(10)
+  # Se detacha el disco de la BKPVM
+  detach_disk(bkpvm,disk_id)
+  time.sleep(10)
+
+
 
 def main():
  ## Parte Principal
@@ -168,17 +204,11 @@ def main():
  # Se obtiene el id del snap
  snapid = get_snap_id(vmid)
  # Se obtiene el ID del disco
- disk_id = snap_disk_id(vmid,snapid)
- # Se agrega el disco a la VM que tomara el backup
- attach_disk(bkpvm,disk_id,snapid)
- # Se obtiene el nombre del dispositivo
- dev = get_logical_disk(bkpvm,disk_id)
- # Backup
- create_image_bkp(dev)
- deactivate_disk(bkpvm,disk_id)
- time.sleep(10)
- detach_disk(bkpvm,disk_id)
- time.sleep(10)
+ vm_disks = snap_disk_id(vmid,snapid)
+ for disk_id in vm_disks:
+   print "Intentando tomar backup de disco " + disk_id
+   # Backup
+   backup(vmid,snapid,disk_id,bkpvm)
  delete_snap(vmid,snapid)
   
 
