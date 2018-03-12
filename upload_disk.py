@@ -1,3 +1,4 @@
+#!/bin/python
 import subprocess
 import logging
 import os
