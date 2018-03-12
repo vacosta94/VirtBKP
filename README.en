@@ -29,7 +29,7 @@ yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
 ```
 Install required packages from repositories configured:
 ```bash
-yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent
+yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent wget
 
 ```
 #### Download 
