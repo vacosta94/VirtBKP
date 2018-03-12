@@ -1,4 +1,4 @@
-# Crear backup de maquinas virtuales oVirt/RHEV >= 4 v1.2
+# Create backup of oVirt / RHEV’s VMs 
 [TOC]
 ## Introduction
 I've been working with `oVirt` since version `3.5` as main virtualization platform, from day one i were looking for a tool to create VM backups based on snapshot as many solutions does with `VMWARE`, after some research i didn't find a tool that fulfilled my requirements so i decided to create one using oVirt python API.
@@ -29,7 +29,7 @@ yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
 ```
 Install required packages from repositories configured:
 ```bash
-yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git
+yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent
 
 ```
 #### Download 

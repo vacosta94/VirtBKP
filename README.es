@@ -40,7 +40,7 @@ yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
 ```
 Luego instalamos las librerias necesarias de python 
 ```bash
-yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git
+yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent
 
 ```
 Luego descargamos la ultima version de la herramienta 
