@@ -8,6 +8,7 @@ import ssl
 import ConfigParser
 import sys
 import time
+import virtbkp_utils
 
 from urlparse import urlparse
 from httplib import HTTPSConnection
@@ -47,10 +48,10 @@ system_service = connection.system_service()
 #
 # 2. The disk initial size must be bigger or the same as the size of the data
 #    you will upload.
-cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
-size=int(subprocess.check_output(cmd, shell=True))
+#cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
+#size=int(subprocess.check_output(cmd, shell=True))
 
-provisioned_size = size
+provisioned_size = virtbkp_utils.get_qcow_size(qcowfile)
 
 disks_service = connection.system_service().disks_service()
 disk = disks_service.add(
