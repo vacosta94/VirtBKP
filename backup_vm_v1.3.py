@@ -199,7 +199,7 @@ def backup(vmid,snapid,disk_id,bkpvm):
   deactivate_disk(bkpvm,disk_id)
   time.sleep(10)
   # Se detacha el disco de la BKPVM
-  printf.INFO("Dettach snap disk to bkpvm")
+  printf.INFO("Dettach snap disk of bkpvm")
   detach_disk(bkpvm,disk_id)
   time.sleep(10)
 
@@ -215,7 +215,7 @@ def main():
  bkpvm = get_id_vm(bkpvm)
  # Se crea el snap y se espera un rato para que termine sin problemas y pueda detectar el nombre del disco en VM de backup
  create_snap(vmid)
- time.sleep(60)
+ #time.sleep(60)
  # Se obtiene el id del snap
  snapid = get_snap_id(vmid)
  # Se obtiene el ID del disco

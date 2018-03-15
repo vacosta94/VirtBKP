@@ -50,8 +50,8 @@ system_service = connection.system_service()
 #    you will upload.
 #cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
 #size=int(subprocess.check_output(cmd, shell=True))
-
-provisioned_size = virtbkp_utils.get_qcow_size(qcowfile)
+utils = virtbkp_utils.virtbkp_utils()
+provisioned_size = utils.get_qcow_size(qcowfile)
 
 disks_service = connection.system_service().disks_service()
 disk = disks_service.add(
