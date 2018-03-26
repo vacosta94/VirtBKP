@@ -40,7 +40,7 @@ yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
 ```
 Luego instalamos las librerias necesarias de python 
 ```bash
-yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent wget
+yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent
 
 ```
 Luego descargamos la ultima version de la herramienta 
@@ -51,7 +51,7 @@ git clone https://github.com/vacosta94/VirtBKP.git
 Obtener `CA` de nuestro `oVirt`, deben reemplazar `ovirt.example.com` por la url de acceso de su oVirt
 ```bash
 cd /opt/VirtBKP
-wget --insecure "https://ovirt.example.com/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA"
+curl --insecure "https://ovirt.example.com/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA" -o ca.crt
 ```
 #### Configurar
 Dentro de la carpeta `VirtBKP` existe un archivo llamado `default.conf`, ese archivo es el ejemplo de configuracion que utiliza la herramienta, deben modificar ese archivo con sus datos de acceso, el archivo debe quedar de la siguiente forma:

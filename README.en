@@ -29,7 +29,7 @@ yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
 ```
 Install required packages from repositories configured:
 ```bash
-yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent wget
+yum install -y qemu-img python-ovirt-engine-sdk4 python-requests git ovirt-guest-agent
 
 ```
 #### Download 
@@ -40,7 +40,7 @@ git clone https://github.com/vacosta94/VirtBKP.git
 We need to get our oVirt's CA in order to establish secure connections to `oVirt API` 
 ```bash
 cd /opt/VirtBKP
-wget --insecure "https://ovirt.infratic.com/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA"
+curl --insecure "https://ovirt.infratic.com/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA" -o ca.crt
 ```
 ## Usage
 #### Configure
