@@ -5,8 +5,6 @@ import ovirtsdk4 as sdk
 import ovirtsdk4.types as types
 import sys
 import ConfigParser
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings()
 import virtbkp_utils
 
 from backup_vm_last import backup_vm

@@ -1,1 +1,5 @@
-backup_vm_v1.5.py
+#!/bin/python
+from backup_vm_last import backup_vm
+b = backup_vm(sys.argv[1],sys.argv[2])
+b.main()
+
