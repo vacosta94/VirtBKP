@@ -56,7 +56,7 @@ class backup_vm_tag():
   self.start()
   for vm in self.get_vms_with_tag(tag):
     try:
-      printf.OK("Running backup of vm %s with tag %s" % vm,tag)
+      printf.OK("Running backup of vm %s with tag %s" % (vm,tag))
       b = backup_vm(self.conf_file,vm)
       b.main()
     except Exception as ex:

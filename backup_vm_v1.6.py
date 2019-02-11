@@ -32,7 +32,6 @@ class backup_vm():
   self.vmid=''
   self.snapname = "BACKUP" + "_" + self.date +"h"
   self.connection = None
-  print 'Starting...'
  
  # Get  default values
  def start(self):
