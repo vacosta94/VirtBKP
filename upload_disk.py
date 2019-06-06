@@ -51,7 +51,7 @@ system_service = connection.system_service()
 #cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
 #size=int(subprocess.check_output(cmd, shell=True))
 utils = virtbkp_utils.virtbkp_utils()
-provisioned_size = utils.get_qcow_size(qcowfile)
+provisioned_size = utils.get_qcow_size(qcowfile) + 1024 * 1024 * 128
 
 disks_service = connection.system_service().disks_service()
 disk = disks_service.add(
@@ -72,7 +72,7 @@ disk = disks_service.add(
 # disk is locked:
 disk_service = disks_service.disk_service(disk.id)
 while True:
-    time.sleep(5)
+    #time.sleep(5)
     disk = disk_service.get()
     if disk.status == types.DiskStatus.OK:
         break
@@ -121,7 +121,7 @@ proxy_connection = HTTPSConnection(
 )
 
 path = qcowfile
-MiB_per_request = 100
+MiB_per_request = 10
 with open(path, "rb") as disk:
     size = os.path.getsize(path)
     chunk_size = 1024 * 1024 * MiB_per_request
