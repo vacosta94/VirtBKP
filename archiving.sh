@@ -3,7 +3,7 @@
 # This script is an example to configure archiving for backups,
 # this is very usefull to configure backup to be stored in a fast drive
 # then be moved to a slower drive that can be a deduplicated volume
-days=3
+days=1
 hotdir=/ovirt_backup
 colddir=/backup/ovirt_backup/ 
 directories=$(find $hotdir -mtime +$days -type d | sed "s@$hotdir@@g")
