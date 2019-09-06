@@ -6,7 +6,7 @@ class virtbkp_utils:
     global qcowfile
 
   def get_qcow_size(self,qcowfile):
-    cmd="qemu-img info "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
+    cmd="qemu-img info -U "+ qcowfile + "|grep 'virtual size'|awk '{print $4}'|sed 's/(//g'"
     size=int(subprocess.check_output(cmd, shell=True))
     return size
 
