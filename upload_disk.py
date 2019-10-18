@@ -121,7 +121,7 @@ proxy_connection = HTTPSConnection(
 )
 
 path = qcowfile
-MiB_per_request = 100
+MiB_per_request = 10
 with open(path, "rb") as disk:
     size = os.path.getsize(path)
     chunk_size = 1024 * 1024 * MiB_per_request

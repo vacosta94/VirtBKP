@@ -188,7 +188,7 @@ class backup_vm():
    subprocess.call(mkdir, shell=True) 
    bckfile = bckfiledir + "/" + diskname + ".qcow2"
    printf.INFO("Creating qcow2 file: " + bckfile)
-   cmd = "qemu-img convert -O qcow2 " + dev + " " +bckfile
+   cmd = "qemu-img convert -U -O qcow2 " + dev + " " +bckfile
    utils=virtbkp_utils.virtbkp_utils()
    thread.start_new_thread(self.run_qemu_convert,(cmd,))
    utils.progress_bar_qcow(bckfile)

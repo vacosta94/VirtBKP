@@ -61,7 +61,7 @@ class backup_vm_tag():
       b.main()
     except Exception as ex:
       printf.ERROR("Backup %s failed!" % vm)
-      raise 
+      #raise 
 
 b = backup_vm_tag(sys.argv[1])
 b.backup_vms_with_tag(sys.argv[2])
