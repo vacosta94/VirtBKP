@@ -56,6 +56,22 @@ class backup_vm():
    if vm.name == vmname:
      return vm.id
 
+# This example fetches the specified VM configuration data and
+# saves it into an OVF file.
+ def download_vm_ovf(self,vmname):
+  # Get the reference to the "vms" service:
+  vm_service = self.connection.service("vms")
+  # Locate VM service
+  vm = vm_service.list(search="name=%s" % vmname, all_content=True)[0]
+  bckfiledir = self.bckdir + "/" + self.vmname + "/" + self.date
+  mkdir = "mkdir -p " + bckfiledir
+  subprocess.call(mkdir, shell=True)
+  ovf_filename = bckfiledir + "/" + self.vmname + ".ovf"
+  with open(ovf_filename, "wb") as ovf_file:
+   ovf_file.write(vm.initialization.configuration.data)
+  printf.OK("VM configuration downloaded")
+
+
 # Funcion para obtener el ID del snapshot creado 
 # Function to get ID of created snapshot
  def get_snap_id(self,vmid):
@@ -228,6 +244,7 @@ class backup_vm():
   # Se consigue el ID de la VM a la cual se hara backup y la VM donde se montaran sus discos
   self.vmid = self.get_id_vm(self.vmname)
   self.bkpvm = self.get_id_vm(self.bkpvm)
+  self.download_vm_ovf(self.vmname)
   # Se crea el snap y se espera un rato para que termine sin problemas y pueda detectar el nombre del disco en VM de backup
   self.create_snap(self.vmid,self.snapname)
   #time.sleep(60)
