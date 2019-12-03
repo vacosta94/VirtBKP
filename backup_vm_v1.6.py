@@ -185,6 +185,7 @@ class backup_vm():
  def create_image_bkp(self,dev,diskname):
    bckfiledir = self.bckdir + "/" + self.vmname + "/" + self.date
    mkdir = "mkdir -p " + bckfiledir
+   time.sleep(5)
    subprocess.call(mkdir, shell=True) 
    bckfile = bckfiledir + "/" + diskname + ".qcow2"
    printf.INFO("Creating qcow2 file: " + bckfile)
