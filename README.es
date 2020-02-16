@@ -35,7 +35,7 @@ Una vez que tenemos nuestra `bkpvm` instalada debemos instalar un par de paquete
 Primero debemos habilitar epel y el repositorio de oVirt
 ```bash
 yum install -y epel-release
-yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm 
+yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release43.rpm 
 
 ```
 Luego instalamos las librerias necesarias de python 

@@ -24,7 +24,7 @@ After finish it creates a `qcow2` file for each VM's disk
 Install required repositories on `bkpvm`:
 ```bash
 yum install -y epel-release
-yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm 
+yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release43.rpm 
 
 ```
 Install required packages from repositories configured:
