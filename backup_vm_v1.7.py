@@ -14,6 +14,7 @@ requests.packages.urllib3.disable_warnings()
 import xml.etree.ElementTree as ET
 import thread
 import virtbkp_utils
+import signal
 
 class backup_vm():
  #def __init__():
@@ -29,6 +30,10 @@ class backup_vm():
   self.bckdir=cfg.get('bkp', 'bckdir')
   self.bkpvm=cfg.get('bkp', 'bkpvm')
   self.date=str((time.strftime("%Y-%m-%d-%H")))
+  try:
+    self.timeout_detect=int(cfg.get('bkp','timeout_detect'))
+  except:
+    self.timeout_detect=3600
   self.vmid=''
   self.snapname = "BACKUP" + "_" + self.date +"h"
   self.connection = None
@@ -172,6 +177,7 @@ class backup_vm():
 
  def run_qemu_convert(self,cmd):
   out = subprocess.call(cmd, shell=True)
+  qcowfile = cmd.split()[-1]
   if int(out) == 0:
    #print "Se creo correctamente la imagen"
    print
@@ -179,6 +185,8 @@ class backup_vm():
   else:
    print
    printf.ERROR("qcow2 file creation failed")
+   printf.ERROR("Deleting file %s" % qcowfile)
+   subprocess.call("rm -rf %s" % qcowfile , shell=True)  
 
  # Funcion para crear imagen qcow2 del disco
  # Function  to create qcow file of disk
@@ -203,25 +211,47 @@ class backup_vm():
    for disk in disks:
      if diskid == str(disk.id):
        return disk.alias
-
+ 
+ def handler_timeout():
+   printf.ERROR("Time Out reached ")
+   raise Exception("Time Out")
+   #printf.INFO("Deactivate disk of bkpvm")
+   #self.deactivate_disk(bkpvm,disk_id)
+   #time.sleep(10)
+   #printf.INFO("Dettach snap disk of bkpvm")
+   #self.detach_disk(bkpvm,disk_id)
+   #time.sleep(10)
+ 
  def backup(self,vmid,snapid,disk_id,bkpvm):
    # Se agrega el disco a la VM que tomara el backup
-   printf.INFO("Attach snap disk to bkpvm")
-   self.attach_disk(bkpvm,disk_id,snapid)
-   # Se obtiene el nombre del dispositivo
-   printf.INFO("Identifying disk device, this might take a while")
-   dev = self.get_logical_disk(bkpvm,disk_id)
-   # Se obtiene el nombre del disco
-   diskname = self.get_disk_name(vmid,snapid,disk_id)
-   # Se crea la image qcow que seria el  backup como tal
-   self.create_image_bkp(dev,diskname)
-   # Se desactiva el disco del cual se hizo el backup
-   self.deactivate_disk(bkpvm,disk_id)
-   time.sleep(10)
-   # Se detacha el disco de la BKPVM
-   printf.INFO("Dettach snap disk of bkpvm")
-   self.detach_disk(bkpvm,disk_id)
-   time.sleep(10)
+   
+   try: 
+     signal.signal(signal.SIGALRM, self.handler_timeout)  
+     signal.alarm(self.timeout_detect) 
+     printf.INFO("Timeout is defined to %s" % self.timeout_detect)
+     printf.INFO("Attach snap disk to bkpvm")
+     self.attach_disk(bkpvm,disk_id,snapid)
+     # Se obtiene el nombre del dispositivo
+     printf.INFO("Identifying disk device, this might take a while")
+     dev = self.get_logical_disk(bkpvm,disk_id)
+     # Se obtiene el nombre del disco
+     diskname = self.get_disk_name(vmid,snapid,disk_id)
+     time.sleep(10)
+     signal.alarm(0)
+     # Se crea la image qcow que seria el  backup como tal
+     self.create_image_bkp(dev,diskname)
+     # Se desactiva el disco del cual se hizo el backup
+     self.deactivate_disk(bkpvm,disk_id)
+     time.sleep(10)
+     # Se detacha el disco de la BKPVM
+     printf.INFO("Dettach snap disk of bkpvm")
+     self.detach_disk(bkpvm,disk_id)
+   except:
+     printf.ERROR("Time Out reached ")
+     self.deactivate_disk(bkpvm,disk_id)
+     time.sleep(10)
+     printf.INFO("Dettach snap disk of bkpvm")
+     self.detach_disk(bkpvm,disk_id)
 
  def main(self):
   self.start()
