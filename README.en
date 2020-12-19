@@ -13,6 +13,7 @@ I've been working with `oVirt` since version `3.5` as main virtualization platfo
 ## How does it work?
 This script should run on `bkpvm` and it connect to `oVirt API` to do:
 - Create snapshot 
+- Create snapshot passing disk id
 - Attach disk to `bkpvm`
 - Create a `qcow2` file of the VM's disk
 - Delete snapshot
@@ -79,7 +80,7 @@ proxyport	= 54323
 #### Create backup
 In order to create backups of virtual machines you should use the syntax bellow:
 ```bash
-/opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> <disk_id>:x
+/opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> 
 
 ```
 Example:
@@ -87,6 +88,20 @@ Example:
 /opt/VirtBKP/backup_vm.py /opt/VirtBKP/default.conf webserver
 ```
 /opt/VirtBKP/backup_vm.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
+
+## Create backup choosing disk
+In order to create backups of virtual machines choosing the disk you should use the syntax bellow:
+```bash
+/opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> <disk_id>
+
+Example:
+```bash
+/opt/VirtBKP/backup_vm.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
+
+To list all the boot disk 
+```bash
+/opt/VirtBKP/list_vms_disk.py ./default.conf
+
 
 #### Restore backup
 In order to restore an existing backup you should use the syntax bellow:
