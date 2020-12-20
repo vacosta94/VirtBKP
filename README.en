@@ -68,7 +68,7 @@ proxy		= ovirt.example.com
 proxyport	= 54323
 
 [default]
-url             = https://manager.ovirt.local/ovirt-engine/api
+url             = https://ovirt.example.local/ovirt-engine/api
 user            = admin@internal
 password        = daitarn3$
 ca_file         = ca.crt
