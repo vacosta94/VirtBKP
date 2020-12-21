@@ -87,7 +87,6 @@ ca_file         = ca.crt
 
 ## Create backup
 In order to create backups of virtual machines you should use the syntax bellow:
-```
 
 ```bash
 /opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> 
