@@ -123,7 +123,7 @@ In order to create backups of the whole Datacenter you should use the sysntax be
 Example:
 ```bash
 /opt/VirtBKP/backup_dc.py /opt/VirtBKP/default.conf Produzione
-```bash
+```
 
 #### Restore backup
 In order to restore an existing backup you should use the syntax bellow:
@@ -133,5 +133,4 @@ In order to restore an existing backup you should use the syntax bellow:
 Example
 ```bash
 /opt/VirtBKP/upload_disk.py /mnt/webserver_2017-04-28-00h.qcow2
-
 ```
