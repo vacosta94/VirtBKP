@@ -84,7 +84,8 @@ ca_file         = ca.crt
 - `proxy`: `IP` or `hostname` of the `ovirt-image-proxy` host (Default: ovirt-engine)
 - `proxyport`: TCP port of the `ovirt-image-proxy` (Default: 54323) 
 
-#### Create backup
+```
+## Create backup
 In order to create backups of virtual machines you should use the syntax bellow:
 ```bash
 /opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> 
