@@ -107,8 +107,7 @@ Example:
 /opt/VirtBKP/backup_vm_select_disk.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
 
 ```
-
-To list all the boot disk 
+In order to list all the vms's boot disk 
 ```bash
 /opt/VirtBKP/list_vms_disk.py /opt/VirtBKP/default.conf
 ```
@@ -123,7 +122,6 @@ Example:
 ```bash
 /opt/VirtBKP/backup_dc.py /opt/VirtBKP/default.conf Produzione
 ```bash
-
 
 #### Restore backup
 In order to restore an existing backup you should use the syntax bellow:
