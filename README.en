@@ -111,7 +111,7 @@ Example:
 ```
 In order to list all the vms's boot disk 
 ```bash
-/opt/VirtBKP/list_vms_disk.py /opt/VirtBKP/default.conf
+/opt/VirtBKP/list_vms_disk.py /opt/VirtBKP/default.conf <datacenter_name> <cluster_name>
 ```
 
 ## Create backup whole Datacenter

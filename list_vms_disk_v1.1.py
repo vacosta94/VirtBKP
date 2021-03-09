@@ -46,5 +46,6 @@ if len(sys.argv) == 3:
 	connection.close()
 
 else:
-	print ("Usage")
+	print ("Usage:")
+	print ("/opt/VirtBKP/list_vms_disk.py /opt/VirtBKP/default.conf DC")
 	exit(1)
