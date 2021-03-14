@@ -106,7 +106,7 @@ In order to create backups of virtual machines choosing the disk you should use 
 ```
 Example:
 ```bash
-/opt/VirtBKP/backup_vm_select_disk.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
+/opt/VirtBKP/backup_vm_disk.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
 
 ```
 In order to list all the vms's boot disk 

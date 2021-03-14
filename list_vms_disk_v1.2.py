@@ -8,7 +8,7 @@ import ConfigParser
 import sys
 import time
 
-if len(sys.argv) <= 4:
+if len(sys.argv) == 4:
 	print ("OK")
 	conf_file=sys.argv[1]
 	cfg = ConfigParser.ConfigParser()
