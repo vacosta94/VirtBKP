@@ -101,7 +101,7 @@ Example:
 ## Create backup choosing disk
 In order to create backups of virtual machines choosing the disk you should use the syntax bellow:
 ```bash
-/opt/VirtBKP/backup_vm_select_disk.py <configuration_file> <vm_name> <disk_id>
+/opt/VirtBKP/backup_vm__disk.py <configuration_file> <vm_name> <disk_id>
 
 ```
 Example:
