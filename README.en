@@ -13,6 +13,7 @@ I've been working with `oVirt` since version `3.5` as main virtualization platfo
 ## How does it work?
 This script should run on `bkpvm` and it connect to `oVirt API` to do:
 - Create snapshot 
+- Create snapshot passing disk id
 - Attach disk to `bkpvm`
 - Create a `qcow2` file of the VM's disk
 - Delete snapshot
@@ -65,6 +66,13 @@ ca_file		= ca.crt
 storage		= gfs_pool0
 proxy		= ovirt.example.com
 proxyport	= 54323
+
+[default]
+url             = https://ovirt.example.local/ovirt-engine/api
+user            = admin@internal
+password        = daitarn3$
+ca_file         = ca.crt
+
 ```
 - `url`: `oVirt API` URL
 - `user`: `User name`
@@ -76,14 +84,45 @@ proxyport	= 54323
 - `proxy`: `IP` or `hostname` of the `ovirt-image-proxy` host (Default: ovirt-engine)
 - `proxyport`: TCP port of the `ovirt-image-proxy` (Default: 54323) 
 
-#### Create backup
+
+## Create backup
 In order to create backups of virtual machines you should use the syntax bellow:
+
 ```bash
-/opt/VirtBKP/backup_vm.py <configuration_file> <vm_name>
+/opt/VirtBKP/backup_vm.py <configuration_file> <vm_name> 
+
 ```
 Example:
 ```bash
 /opt/VirtBKP/backup_vm.py /opt/VirtBKP/default.conf webserver
+
+```
+
+## Create backup choosing disk
+In order to create backups of virtual machines choosing the disk you should use the syntax bellow:
+```bash
+/opt/VirtBKP/backup_vm__disk.py <configuration_file> <vm_name> <disk_id>
+
+```
+Example:
+```bash
+/opt/VirtBKP/backup_vm_disk.py /opt/VirtBKP/default.conf vm-oracle 3d75ba0a-4712-4d77-be13-7ba37583cdcc
+
+```
+In order to list all the vms's boot disk 
+```bash
+/opt/VirtBKP/list_vms_disk.py /opt/VirtBKP/default.conf <datacenter_name> <cluster_name>
+```
+
+## Create backup whole Datacenter
+In order to create backups of the whole Datacenter you should use the sysntax bellow:
+```bash
+/opt/VirtBKP/backup_dc.py <configuration_file> <datacenter_name>
+
+```
+Example:
+```bash
+/opt/VirtBKP/backup_dc.py /opt/VirtBKP/default.conf Produzione
 ```
 
 #### Restore backup
@@ -94,5 +133,4 @@ In order to restore an existing backup you should use the syntax bellow:
 Example
 ```bash
 /opt/VirtBKP/upload_disk.py /mnt/webserver_2017-04-28-00h.qcow2
-
 ```
